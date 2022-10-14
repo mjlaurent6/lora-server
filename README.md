@@ -12,3 +12,4 @@
 
 #### How to run the server
 1. If you use pyCharm, run configuration has been set up for simplicity.
+2. Server will run on http://localhost:8000
