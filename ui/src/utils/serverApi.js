@@ -1,4 +1,19 @@
 export default function ServerApi() {
+
+    function getRandomFloat(upper, bottom){
+        return (Math.random() * (bottom - upper) + upper).toFixed(1)
+    }
+
+    function getBlinkingLocation() {
+        const getTime = () => new Date().toLocaleString();
+        const lat = getRandomFloat(37.4, 37.9)
+        const long = getRandomFloat(-122.4, -122.0)
+        const fakePayload = [
+            {id: '#1892', lat: lat, long: long, color: '#FF0000', timestamp: getTime()},
+        ]
+        return fakePayload
+    }
+
     function getBoxesLocation() {
         const getTime = () => new Date().toLocaleString();
 
@@ -10,5 +25,5 @@ export default function ServerApi() {
         return fakePayload
     }
 
-    return {getBoxesLocation: getBoxesLocation}
+    return {getBoxesLocation: getBoxesLocation, getBlinkingLocation: getBlinkingLocation}
 }

@@ -9,7 +9,7 @@ function Location({serverApi}) {
     const fakePayload = serverApi.getBoxesLocation()
     return (
         <Container sx={{display: 'flex'}} maxWidth='100%'>
-            <div className='map-container'><MapView sensors={fakePayload}/></div>
+            <div className='map-container'><MapView serverApi={serverApi} sensors={fakePayload}/></div>
             <div className='control-container'>
                 {fakePayload.map(({id, color, timestamp}) => (
                     <Paper key={id} sx={{m: 1.5}}>

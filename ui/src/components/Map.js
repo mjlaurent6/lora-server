@@ -7,21 +7,28 @@ import MarkerView from './MarkerView'
 import {useEffect, useState} from 'react'
 
 const MAPBOX_TOKEN = 'pk.eyJ1IjoibWljcm9zdHVjazIiLCJhIjoiY2xjNzc5ZnR5MWYxaTNucGc3dXI1ZW9jbSJ9.oA3eGIumdRb785WUNBlLpg' // Set your mapbox token here
+// const MAPBOX_TOKEN = 'EMPTY' // Set your mapbox token here
 
-function MapView({sensors}) {
+function MapView({serverApi, sensors}) {
     const [viewState, setViewState] = useState({
         latitude: 37.8,
         longitude: -122.4,
         zoom: 14
     })
 
+    const [sensorData, setSensorData] = useState(sensors);
+
     const [long, setLong] = useState(-122.4)
 
     // useEffect(() => {
-    //   const interval = setInterval(() => {
-    //     setLong(getRandomFloat(-122.3, -122.6, 5))
-    //   }, 1000)
-    //   return () => clearInterval(interval)
+    //     const interval = setInterval(() => {
+    //         const fakePayload = serverApi.getBlinkingLocation()
+    //         const {lat, long} = fakePayload[0];
+    //         setViewState({latitude: lat, longitude: long, zoom: 14})
+    //         console.log(fakePayload)
+    //         setSensorData(fakePayload)
+    //     }, 1000)
+    //     return () => clearInterval(interval)
     // }, [])
 
     return (
@@ -33,7 +40,7 @@ function MapView({sensors}) {
                 mapStyle="mapbox://styles/mapbox/streets-v9"
                 mapboxAccessToken={MAPBOX_TOKEN}
             >
-                {sensors.map(({id, long, lat, color}) => (
+                {sensorData.map(({id, long, lat, color}) => (
                     <MarkerView
                         key={id}
                         id={id}

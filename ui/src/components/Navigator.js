@@ -17,12 +17,8 @@ const categories = [
     {
         id: 'AngelBox Management',
         children: [
-            {
-                id: 'Location',
-                icon: <LocationOn/>,
-                link: '/location',
-            },
-            // {id: 'Database', icon: <DnsRoundedIcon/>},
+            {id: 'Location', icon: <LocationOn/>, link: '/location'},
+            {id: 'Register', icon: <DnsRoundedIcon/>, link: '/'},
             // {id: 'Storage', icon: <PermMediaOutlinedIcon/>}
         ],
     },
@@ -54,7 +50,7 @@ const itemCategory = {
 
 export default function Navigator(props) {
     const {...other} = props;
-    const { selected } = props;
+    const {selected} = props;
     return (
         <Drawer variant="permanent" {...other}>
             <List disablePadding>
