@@ -2,6 +2,7 @@ import context
 import paho.mqtt.subscribe as subscribe
 
 # follow installations section of https://pypi.org/project/paho-mqtt/, before running this script
+# topics used by application server can be found in https://www.thethingsindustries.com/docs/integrations/mqtt/
 
 # constants taken from ttn mqtt integrations dashboard
 application_id = 'gch6-lora-test1@ttn'
