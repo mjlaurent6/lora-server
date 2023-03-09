@@ -1,15 +1,20 @@
-## LoRa Server [FYP-GCH6]
+## Backend Worker
 
-#### Requirements
 
-1. pyCharm (any version)
+Build 
 
-#### Clone the project
+`
+docker build -t backend-worker .
+`
 
-1. Open pyCharm
-2. New project from version control
-3. Clone the repo 
+Run dev
 
-#### How to run the server
-1. If you use pyCharm, run configuration has been set up for simplicity.
-2. Server will run on http://localhost:8000
+`
+docker run -p 8000:80 backend-worker
+`
+
+Run prod
+
+`
+docker run -dp 8000:80 backend-worker
+`
