@@ -60,7 +60,6 @@ class MQTTClient():
 
             response = msg
             stop = True
-            client.disconnect()
 
         client.subscribe(topic)
         client.on_message = on_message
@@ -68,9 +67,8 @@ class MQTTClient():
         
         elapsed_time = 0
         # loop for the alloted time or when message has been received
-        client.loop_forever()
         while elapsed_time < timeout and not stop:
-            # client.loop_start()
+            client.loop()
             elapsed_time = time.time() - start_time
         client.loop_stop()
         client.unsubscribe(topic)
