@@ -1,8 +1,8 @@
 import numpy as np
 import json
 from math import radians, cos, sin, asin, sqrt, atan2, degrees
-from models import gateway_localize_model,Signal 
-from fewella import algos
+from app.models import gateway_localize_model,Signal 
+from app.fewella import algos
 
 from typing import List
 
@@ -14,11 +14,11 @@ from tensorflow import keras
 from tensorflow.keras import layers
 
 class Localization_Engine():
-    PREFIX_TRAIN_DATA = 'train_data/processed'
+    PREFIX_TRAIN_DATA = 'app/train_data/processed'
     train_data = {}
 
     def __init__(self) -> None:
-        self.reloaded = tf.keras.models.load_model('model/rssi_to_distance')
+        self.reloaded = tf.keras.models.load_model('app/model/rssi_to_distance')
         with open(f'{self.PREFIX_TRAIN_DATA}/t8_tx10.json', 'r') as f1, open(f'{self.PREFIX_TRAIN_DATA}/t20_tx10.json') as f2, open(f'{self.PREFIX_TRAIN_DATA}/t8_tx15.json', 'r') as f3:
             data_str = json.load(f1)
             data = json.loads(data_str)

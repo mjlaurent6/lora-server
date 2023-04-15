@@ -2,7 +2,7 @@ from fastapi import Query, Request
 from pydantic import Required
 from typing_extensions import Annotated
 
-from util.mqtt import MQTTClient
+from app.util.mqtt import MQTTClient
 
 # Put all dependecies here, authorization, db, etc
 

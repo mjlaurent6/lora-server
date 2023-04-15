@@ -1,10 +1,9 @@
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Float, ClauseList, ARRAY, JSON
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Float, ARRAY, JSON
 from sqlalchemy.ext.declarative import declarative_base
 
 from pydantic import BaseModel, dataclasses, Field
 from dataclasses import field
 from typing import Union
-
 Base  = declarative_base()
 
 
@@ -45,13 +44,18 @@ class Signal():
     tx_power: float
     snr: float
 
+@dataclasses.dataclass
+class Location():
+    altitude: float = None
+    latitude: float = None
+    longitude: float = None
+
 class base_gateway_model(BaseModel):
-    gateway_eui: str
-    device_eui: str
+    gateway_id: str
     signal: Signal
 
 class gateway_localize_model(base_gateway_model):
-    lattitude: float
+    latitude: float
     longitude: float
     rssi: float
 
@@ -59,5 +63,5 @@ class gateway_rssi_in(base_gateway_model):
     pass
 
 class gateway_rssi_out(base_gateway_model):
+    location: Location
     distance: float
-

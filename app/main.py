@@ -2,15 +2,15 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi_sqlalchemy import DBSessionMiddleware, db
 
-from schema import EventUp as SchemaEvent
-from schema import EventUp
-from models import EventUp as ModelEventUp
+# from schema import EventUp as SchemaEvent
+# from schema import EventUp
+# from models import EventUp as ModelEventUp
 
 from enum import Enum 
 from fastapi import FastAPI, Path, Query
 
 from contextlib import asynccontextmanager
-from routers import gateway_manage, localization
+from app.routers import gateway_manage, localization
 
 # from services.gateway_manage import gateway_manage, localization_engine
 

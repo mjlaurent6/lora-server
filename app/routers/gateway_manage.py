@@ -1,13 +1,14 @@
 from fastapi import APIRouter, Query, Depends, Request, status, Response
 from typing_extensions import Annotated
 
-from util.mqtt import MQTTClient
-from util import parser
-from dependencies import gateway_query_params
+from app.util.mqtt import MQTTClient
+from app.util import parser
+from app.dependencies import gateway_query_params
 
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
-from models import *
+from app.models import *
+
 
 # initialize required objects
 MAX_TIMEOUT = 1
