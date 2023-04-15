@@ -1,7 +1,7 @@
 import numpy as np
 import json
 from math import radians, cos, sin, asin, sqrt, atan2, degrees
-from app.models import gateway_localize_model,Signal 
+from app.routers.models import gateway_localize_model,Signal 
 from app.fewella import algos
 
 from typing import List
@@ -13,18 +13,18 @@ import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
 
-class Localization_Engine():
+class localization_engine():
     PREFIX_TRAIN_DATA = 'app/train_data/processed'
     train_data = {}
 
     def __init__(self) -> None:
         self.reloaded = tf.keras.models.load_model('app/model/rssi_to_distance')
-        with open(f'{self.PREFIX_TRAIN_DATA}/t8_tx10.json', 'r') as f1, open(f'{self.PREFIX_TRAIN_DATA}/t20_tx10.json') as f2, open(f'{self.PREFIX_TRAIN_DATA}/t8_tx15.json', 'r') as f3:
-            data_str = json.load(f1)
-            data = json.loads(data_str)
-            self.train_data['rssi'] = data['rssi']
-            self.train_data['distance'] = data['distance']
-            print(len(self.train_data['rssi']))
+    #     with open(f'{self.PREFIX_TRAIN_DATA}/t8_tx10.json', 'r') as f1, open(f'{self.PREFIX_TRAIN_DATA}/t20_tx10.json') as f2, open(f'{self.PREFIX_TRAIN_DATA}/t8_tx15.json', 'r') as f3:
+    #         data_str = json.load(f1)
+    #         data = json.loads(data_str)
+    #         self.train_data['rssi'] = data['rssi']
+    #         self.train_data['distance'] = data['distance']
+    #         print(len(self.train_data['rssi']))
 
     # convert rssi to distance/radius, by linear interpolating training data
     # def rssi_distance(self, rssi: float, tx_power: int = 10):
@@ -42,20 +42,20 @@ class Localization_Engine():
     #     return radius/1000
 
     # -30rssi @ 1m
-    n = [1.96, 2.829, 2.79]
-    A = [-29, -25, -20]
-    def rssi_to_distance(self, rssi, i = 0):
-        dist = 10 ** ((self.A[i] - rssi) / (10 * self.n[i]))
-        return dist
+    # n = [1.96, 2.829, 2.79]
+    # A = [-29, -25, -20]
+    # def rssi_to_distance(self, rssi, i = 0):
+    #     dist = 10 ** ((self.A[i] - rssi) / (10 * self.n[i]))
+    #     return dist
 
-    def calculate_rssi_to_distance(self, payload: Signal):
-        data = {'rssi': float(payload.rssi), 'snr': float(payload.snr), 'tx_power': float(payload.tx_power)}
+    def calculate_rssi_to_distance(self, **kwargs):
+        data = {'rssi': kwargs['rssi'], 'snr': kwargs['snr'], 'tx_power': 15}
         data = pd.DataFrame(data, index=[0])
         result = self.reloaded.predict(data)[0]
         return result[0]
         # return self.reloaded.predict(data)[0][0]
 
-    def localize(self, gateways: List[gateway_localize_model]):
+    def trilaterate(self, gateways: List[gateway_localize_model]):
         # convert geometric coordinate system to cartesian coordinates
         gateway_input = []
 

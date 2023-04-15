@@ -4,24 +4,23 @@ from sqlalchemy.ext.declarative import declarative_base
 from pydantic import BaseModel, dataclasses, Field
 from dataclasses import field
 from typing import Union
+from enum import Enum
+
 Base  = declarative_base()
-
-
-class EventUp(Base):
-    __tablename__ = 'event_up'
-    deduplication_id = Column(String, primary_key=True, index=True)
-    device_name = Column(String)
-    rx_info = Column(ARRAY(JSON))
-    tx_info = Column(ARRAY(JSON))
 
 class gateway_commands: 
     PREFIX = '/gateway/control'
-    PING = 'PING'
-    REBOOT = 'REBOOT'
-    START = 'START'
-    STOP = 'STOP'
-    TEMP = 'TEMP'
-    UPTIME = 'UPTIME'
+    PING = 'ping'
+    REBOOT = 'reboot'
+    START = 'start'
+    STOP = 'stop'
+    TEMP = 'temp'
+    UPTIME = 'uptime'
+
+class remote_request(Enum):
+    REBOOT = 0
+    START = 1
+    STOP = 2
 
 # define models here
 @dataclasses.dataclass
@@ -41,8 +40,9 @@ class gateway_out_model():
 @dataclasses.dataclass
 class Signal():
     rssi: float
-    tx_power: float
     snr: float
+    # remove later
+    tx_power: float = 15
 
 @dataclasses.dataclass
 class Location():

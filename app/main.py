@@ -12,6 +12,8 @@ from fastapi import FastAPI, Path, Query
 from contextlib import asynccontextmanager
 from app.routers import gateway_manage, localization
 
+from fastapi.middleware.cors import CORSMiddleware
+
 # from services.gateway_manage import gateway_manage, localization_engine
 
 import os
@@ -26,6 +28,14 @@ app.include_router(localization.router)
 
 # to avoid csrftokenError
 app.add_middleware(DBSessionMiddleware, db_url='postgresql://chirpstack_integration:chirpstack_integration@143.89.144.31/chirpstack_integration')
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['*'],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 async def root():

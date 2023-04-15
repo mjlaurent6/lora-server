@@ -45,7 +45,7 @@ class MQTTClient():
             print(f"Failed to send message to topic {topic}")
         client.disconnect()
 
-    # subscribe and waits 
+    # subscribes and waits until either message is received, or timeout
     def sub_and_wait(self, topic, timeout):
         stop = False
         # connect to mqtt
@@ -54,10 +54,13 @@ class MQTTClient():
         def on_message(client, userdata, msg):
             nonlocal stop
             nonlocal response
-            print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
+            print(msg.payload)
+            decoded = msg.payload.decode()
+            print(f"Received `{decoded}` from `{msg.topic}` topic")
 
             response = msg
             stop = True
+            client.disconnect()
 
         client.subscribe(topic)
         client.on_message = on_message
@@ -65,8 +68,9 @@ class MQTTClient():
         
         elapsed_time = 0
         # loop for the alloted time or when message has been received
+        client.loop_forever()
         while elapsed_time < timeout and not stop:
-            client.loop()
+            # client.loop_start()
             elapsed_time = time.time() - start_time
         client.loop_stop()
         client.unsubscribe(topic)

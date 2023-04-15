@@ -2,7 +2,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-SQLALCHEMY_DATABASE_URL = "postgresql://chirpstack_integration:chirpstack_integration@143.89.144.31/chirpstack_integration"
+from app.config import get_settings
+
+SQLALCHEMY_DATABASE_URL = get_settings().database_uri
 
 db_engine = create_engine(
     SQLALCHEMY_DATABASE_URL
